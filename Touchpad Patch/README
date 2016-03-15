@@ -1,0 +1,18 @@
+
+Patch applied in '/etc/X11/xinit/xinputrc'
+
+# FIX
+
+# find the id of the AlpsPS/2 ALPS DualPoint TouchPad device:
+#xinput list
+
+# find the id of the Coordinate Transformation Matrix (in parantheses):
+#xinput list-props <device-id>
+
+# apply fix
+xinput set-prop <device-id> <prop-id> 1.000000, 0.000000, 0.000000, 0.000000, 2.000000, 0.000000, 0.000000, 0.000000, 1.000000
+
+
+# REVERSE
+
+xinput set-prop <device-id> <prop-id> 1.000000, 0.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 0.000000, 1.000000

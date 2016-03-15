@@ -1,0 +1,26 @@
+
+# HOW TO PATCH
+
+I think this is what will work for now
+
+sudo apt-get install build-essential linux-headers-$(uname -r) git
+echo "options ath10k_core skip_otp=y" | sudo tee /etc/modprobe.d/ath10k_core.conf
+wget https://www.kernel.org/pub/linux/kernel/projects/backports/2015/09/03/backports-20150903.tar.gz
+tar -zxvf backports-20150903.tar.gz
+cd backports-20150903
+make defconfig-ath10k
+make
+sudo make install
+git clone https://github.com/atondwal/ath10k-firmware.git
+sudo cp -r /ath10k-firmware/ath10k/ /lib/firmware/
+sudo cp -r /lib/firmware/ath10k/QCA6164/hw2.1 /lib/firmware/ath10k/QCA6174/
+
+After a kernel update you will need to
+
+cd backports-20150903
+make clean
+make defconfig-ath10k
+make
+sudo make install
+
+Then reboot unless someone figures out how to do dkms with backports

@@ -1,0 +1,35 @@
+
+# APPLY THE FIX:
+
+make defconfig-ath10k
+make
+sudo make install
+
+
+# SOURCE:
+
+https://bugs.launchpad.net/ubuntu/+source/linux/+bug/1436940/comments/34
+
+
+# COMPLETE COMMENT: 
+
+Yes, steps are:
+
+Get the latest backport from https://www.kernel.org/pub/linux/kernel/projects/backports/2015/07/31/ (the zip/tar file)
+Uncompress somewhere
+Patch the code with https://github.com/atondwal/linux/commit/22f8a4083883eca3e8a3175315d67d2a04392466
+Then do:
+make defconfig-ath10k
+make
+sudo make install
+
+Then, get the latest firmware from https://github.com/kvalo/ath10k-firmware/archive/master.zip
+Unzip and copy ath10k folder to /lib/firmware/ath10k
+Copy these two files (overwrite what you got before) in /lib/firmware/ath10k/QCA6164/hw2.1:
+https://github.com/atondwal/ath10k-firmware/tree/master/ath10k/QCA6164/hw2.1
+
+Create a file named /etc/modprobe.d/ath10k.conf with the following line:
+
+"options ath10k_core skip_otp=y"
+
+Reboot and modprobe ath10k_pci. Do "lshw -C network"; "ip link show" or "rfkill list" to see if you got your card working.`
